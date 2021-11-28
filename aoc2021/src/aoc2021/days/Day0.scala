@@ -8,12 +8,10 @@ import fastparse._, NoWhitespace._
 
 object Day0 extends AocDay {
   // Actual Logic
-
   case class PasswordLine(first : Int, second: Int, c : Char, password: String)
 
   def testPasswordRange(line: PasswordLine) : Boolean = {
     val charCount = line.password.filter(_ == line.c).length
-
     line.first <= charCount && charCount <= line.second
   }
 
@@ -24,11 +22,12 @@ object Day0 extends AocDay {
   def passwordLine[_: P]: P[PasswordLine] = P((number ~ "-" ~ number ~ " " ~ char ~ ": " ~ identifier).map(PasswordLine.tupled))
   def passwordLines[_: P]: P[Seq[PasswordLine]] = P(passwordLine.rep(sep="\n"))
 
+  // Interface
   def problem1(data: String) =  {
     val Parsed.Success(lines, _) = parse(data, passwordLines(_))
     lines.filter(testPasswordRange).length.toString
   }
 
-  def problem2(_x: String) = "It also worked!"
+  def problem2(_x: String) = "<placeholder>"
 }
 
