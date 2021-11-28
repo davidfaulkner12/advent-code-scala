@@ -2,12 +2,25 @@ package aoc2021
 
 import aoc2021.days._
 import scala.io.Source
+import scala.util.{Try,Success,Failure}
 
 object Aoc2021 extends App {
 
-  def loadCompanionObjectForDay(day: String) = {
+  def loadCompanionObjectForDay(day: String) : Try[AocDay] = Try {
     val c = Class.forName(s"aoc2021.days.Day${day}$$")
     c.getDeclaredField("MODULE$").get().asInstanceOf[AocDay]
+  }
+
+  def runProblem(day: AocDay, problem: String, data: String) : Try[String] = Try {
+    problem match {
+      case "1" => day.problem1(data)
+      case "2" => day.problem2(data)
+      case _ => throw new IllegalArgumentException("Problem must be '1' or '2'")
+    }
+  }
+
+  def slurp(file: String) = Try {
+    Source.fromFile(file).mkString
   }
 
   if (args.length != 3) {
@@ -15,14 +28,15 @@ object Aoc2021 extends App {
     sys.exit(1)
   }
 
-  val fileContents = Source.fromFile(args(2)).mkString
+  val result = for {
+    fileContents <- slurp(args(2))
+    day <- loadCompanionObjectForDay(args(0))
+    result <- runProblem(day, args(1), fileContents)
+  } yield result
 
-  val day = loadCompanionObjectForDay(args(0))
-
-  val result = args(1) match {
-    case "1" => day.problem1(fileContents)
-    case "2" => day.problem2(fileContents)
+  result match {
+    // Unix-y, on success we do good things
+    case Success(value) => println(value)
+    case Failure(error) => println(s"Error: ${error}"); sys.exit(1)
   }
-
-  println(result)
 }
