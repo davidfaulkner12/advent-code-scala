@@ -8,8 +8,9 @@ object aoc2021 extends ScalaModule {
     )
 
     object test extends Tests with TestModule.Utest {
-     def ivyDeps = Agg(
+      override def ammoniteVersion: T[String] = T("2.4.0")
+      def ivyDeps = Agg(
         ivy"com.lihaoyi::utest:0.7.10"
-     )
-     }
+      )
+    }
 }

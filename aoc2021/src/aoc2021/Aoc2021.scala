@@ -6,6 +6,10 @@ import scala.util.{Try,Success,Failure}
 
 object Aoc2021 extends App {
 
+  def slurp(file: String) = Try {
+    Source.fromFile(file).mkString
+  }
+
   def loadCompanionObjectForDay(day: String) : Try[AocDay] = Try {
     val c = Class.forName(s"aoc2021.days.Day${day}$$")
     c.getDeclaredField("MODULE$").get().asInstanceOf[AocDay]
@@ -17,10 +21,6 @@ object Aoc2021 extends App {
       case "2" => day.problem2(data)
       case _ => throw new IllegalArgumentException("Problem must be '1' or '2'")
     }
-  }
-
-  def slurp(file: String) = Try {
-    Source.fromFile(file).mkString
   }
 
   if (args.length != 3) {
