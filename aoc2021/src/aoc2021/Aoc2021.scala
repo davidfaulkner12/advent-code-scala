@@ -6,6 +6,12 @@ import scala.util.{Try,Success,Failure}
 
 object Aoc2021 extends App {
 
+  def printUsageAndExit(error: Throwable) : Unit = {
+   Console.err.println("usage aoc2021 day problem file")
+   Console.err.println(s"Error: ${error}")
+   sys.exit(1)
+  }
+
   def slurp(file: String) = Try {
     Source.fromFile(file).mkString
   }
@@ -23,20 +29,18 @@ object Aoc2021 extends App {
     }
   }
 
-  if (args.length != 3) {
-    Console.err.println("usage: aoc2021 day problem file")
-    sys.exit(1)
-  }
-
   val result = for {
-    fileContents <- slurp(args(2))
-    day <- loadCompanionObjectForDay(args(0))
-    result <- runProblem(day, args(1), fileContents)
+    dayNum <- Try(args(0))
+    problemNum <- Try(args(1))
+    filename <- Try(args(2))
+    fileContents <- slurp(filename)
+    day <- loadCompanionObjectForDay(dayNum)
+    result <- runProblem(day, problemNum, fileContents)
   } yield result
 
   result match {
-    // Unix-y, on success we do good things
+    // Unix-y, on success we just print the output and implicitly exit(0)
     case Success(value) => println(value)
-    case Failure(error) => println(s"Error: ${error}"); sys.exit(1)
+    case Failure(error) => printUsageAndExit(error)
   }
 }
