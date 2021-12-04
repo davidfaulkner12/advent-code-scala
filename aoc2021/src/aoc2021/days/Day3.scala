@@ -2,8 +2,8 @@ package aoc2021.days
 
 import scala.util.control.Exception._
 
-// Day 3: 2035764
-// Day 3: 2817661
+// Day 3: 2035764 81071
+// Day 3: 2817661 76733
 
 object Day3 extends AocDay {
 
