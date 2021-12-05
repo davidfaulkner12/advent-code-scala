@@ -13,4 +13,11 @@ object aoc2021 extends ScalaModule {
         ivy"com.lihaoyi::utest:0.7.10"
       )
     }
+
+    object integration extends Tests with TestModule.Utest {
+      override def ammoniteVersion: T[String] = T("2.4.0")
+      def ivyDeps = Agg(
+        ivy"com.lihaoyi::utest:0.7.10"
+      )
+    }
 }
