@@ -9,7 +9,7 @@ object Day2Tests extends TestSuite {
   val tests = Tests{
 
     test("testParser") {
-      val Parsed.Success(SubCommand(SubCommandDir.forward, 4), _) = parse("forward 4", command(_))
+      val Parsed.Success(SubCommand(Direction.Forward, 4), _) = parse("forward 4", command(_))
     }
 
     val example = """forward 5

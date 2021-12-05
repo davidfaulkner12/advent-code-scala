@@ -57,19 +57,6 @@ object Day4Tests extends TestSuite {
       assert(!Winner.colWinner(Vector(true, false, false, true)))
     }
 
-    test("testDiagWinnerFour") {
-      assert(Winner.diagWinner(Vector(true, false, false, true)))
-      assert(!Winner.diagWinner(Vector(true, false, true, false)))
-      assert(!Winner.diagWinner(Vector(true, true, false, false)))
-      assert(!Winner.diagWinner(Vector(false, true, true, false)))
-    }
-    test("testRdiagWinnerFour") {
-      assert(!Winner.rdiagWinner(Vector(true, false, false, true)))
-      assert(!Winner.rdiagWinner(Vector(true, false, true, false)))
-      assert(!Winner.rdiagWinner(Vector(true, true, false, false)))
-      assert(Winner.rdiagWinner(Vector(false, true, true, false)))
-    }
-
     test("SingleBoard") {
       val b = createBoard(boardArrays(0))
 

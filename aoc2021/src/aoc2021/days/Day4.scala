@@ -1,7 +1,8 @@
 package aoc2021.days
 
-// Day 4: 27027 47361
-// Day 4: 36975 43975
+// Problem Answer Rank
+// 1: 27027 47361
+// 2: 36975 43975
 
 object Day4 extends AocDay {
 
@@ -17,24 +18,6 @@ object Day4 extends AocDay {
       (0 until size).map(i => marked.grouped(size).map(j => j(i)))
         .map(_.forall(identity))
         .exists(identity _)
-    }
-    def diagWinner(marked: Vector[Boolean]) = {
-      def size = scala.math.sqrt(marked.length).toInt
-      val diag = for {
-        i <- 0 until size
-        j <- 0 until size
-        if i == j
-      } yield marked(i * size + j)
-      diag.forall(identity)
-    }
-    def rdiagWinner(marked: Vector[Boolean]) = {
-      def size = scala.math.sqrt(marked.length).toInt
-      val diag = for {
-        i <- 0 until size
-        j <- 0 until size
-        if i + j == size -1
-      } yield marked(i * size + j)
-      diag.forall(identity)
     }
 
     def winner(marked: Vector[Boolean]) = {

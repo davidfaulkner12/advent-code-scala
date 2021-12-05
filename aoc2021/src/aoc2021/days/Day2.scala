@@ -3,27 +3,29 @@ package aoc2021.days
 import fastparse._, NoWhitespace._
 
 // Problem Answer Rank
-// Problem 1: 2215080 52529
-// Problem 2: 1864715580 45968
+// 1: 2215080 52529
+// 2: 1864715580 45968
 
 object Day2 extends AocDay {
   // Actual Logic
-  object SubCommandDir extends Enumeration {
-    type SubCommandDir = Value
-    val forward, down, up = Value
+  sealed trait Direction
+  object Direction {
+    case object Forward extends Direction
+    case object Down extends Direction
+    case object Up extends Direction
   }
-  import SubCommandDir._
+  import Direction._
 
-  case class SubCommand(dir: SubCommandDir, value: Int)
+  case class SubCommand(dir: Direction, value: Int)
 
   trait SubLocation{ def position: Int; def depth: Int }
   case class DirectSubLocation(position: Int, depth: Int) extends SubLocation
 
   def runDirectCommands(commands: Seq[SubCommand]) : SubLocation = {
     commands.foldLeft(DirectSubLocation(0, 0))((location, command) => command match {
-      case SubCommand(SubCommandDir.forward, x) => location.copy(position = location.position + x)
-      case SubCommand(SubCommandDir.down, x) => location.copy(depth = location.depth + x)
-      case SubCommand(SubCommandDir.up, x) => location.copy(depth = location.depth - x)
+      case SubCommand(Forward, x) => location.copy(position = location.position + x)
+      case SubCommand(Down, x) => location.copy(depth = location.depth + x)
+      case SubCommand(Up, x) => location.copy(depth = location.depth - x)
     })
   }
 
@@ -31,19 +33,21 @@ object Day2 extends AocDay {
 
   def runAimCommands(commands: Seq[SubCommand]) : SubLocation = {
     commands.foldLeft(AimSubLocation(0, 0, 0))((location, command) => command match {
-      case SubCommand(SubCommandDir.forward, x) => location.copy(position = location.position + x, depth = location.depth + (x * location.aim))
-      case SubCommand(SubCommandDir.down, x) => location.copy(aim = location.aim + x)
-      case SubCommand(SubCommandDir.up, x) => location.copy(aim = location.aim - x)
+      case SubCommand(Forward, x) => location.copy(position = location.position + x, depth = location.depth + (x * location.aim))
+      case SubCommand(Down, x) => location.copy(aim = location.aim + x)
+      case SubCommand(Up, x) => location.copy(aim = location.aim - x)
     })
   }
 
 
   // Parsers
   def number[_: P]: P[Int] = P( CharIn("0-9").rep(1).!.map(_.toInt))
-  def identifier[_: P]: P[String] = P( CharPred(_.isLetterOrDigit).rep(1).!)
 
-  def commandDir[_: P]: P[SubCommandDir] = P( identifier.map(SubCommandDir.withName) )
-  def command[_: P]: P[SubCommand] = P( (commandDir ~ " " ~ number).map(SubCommand.tupled) )
+  def forward[_: P]: P[Direction] = P( "forward".!.map(_ => Forward) )
+  def down[_: P]: P[Direction] = P( "down".!.map(_ => Down) )
+  def up[_: P]: P[Direction] = P( "up".!.map(_ => Up) )
+
+  def command[_: P]: P[SubCommand] = P( ((forward | down | up) ~ " " ~ number).map(SubCommand.tupled) )
   def commandLines[_: P]: P[Seq[SubCommand]] = P(Start ~ command.rep(sep="\n") ~ "\n".rep(0) ~ End)
 
 

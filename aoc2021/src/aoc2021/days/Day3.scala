@@ -2,8 +2,9 @@ package aoc2021.days
 
 import scala.util.control.Exception._
 
-// Day 3: 2035764 81071
-// Day 3: 2817661 76733
+// Problem Answer Rank
+// 1: 2035764 81071
+// 2: 2817661 76733
 
 object Day3 extends AocDay {
 
@@ -74,7 +75,7 @@ object Day3 extends AocDay {
             }
           }
         }
-      case _ => None
+      case _ => None // Also shoudn't happen
       }
     }
   }

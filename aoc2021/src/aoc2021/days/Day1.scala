@@ -1,9 +1,8 @@
 package aoc2021.days
 
-import fastparse._, NoWhitespace._
-
-// Day 1: 1759
-// Day 2: 1805
+// Problem Answer Rank
+// 1: 1759 52529
+// 2: 1805 45968
 
 object Day1 extends AocDay {
 

@@ -3,8 +3,6 @@ package aoc2021.days
 import utest._
 import aoc2021.days.Day1._
 
-import fastparse._, NoWhitespace._
-
 object Day1Tests extends TestSuite {
   val tests = Tests{
 
