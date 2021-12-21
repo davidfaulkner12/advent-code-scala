@@ -35,6 +35,12 @@ object AllProblems extends TestSuite {
     test("Day6") {
       runTests(Day6, 6, 388419, 1740449478328L)
     }
+    test("Day7") {
+      runTests(Day7, 7, 344297, 97164301)
+    }
+    test("Day9") {
+      runTests(Day9, 9, 541, 847504)
+    }
     test("Day11") {
       runTests(Day11, 11, 1741, 440)
     }
